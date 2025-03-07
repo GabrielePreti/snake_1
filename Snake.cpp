@@ -53,7 +53,7 @@ void Snake::display() {
 
 void Snake::move() {
     nodelay(snake_win, TRUE);
-    int direction = -1;
+    int direction = 1;
     bool end = false;
 
     while (end != true) {
@@ -93,8 +93,13 @@ void Snake::move() {
             switch (direction) {
                 case 1:
                     matrix[point.tailr][point.tailc] = false;
-                    point.tailc--;
-                    point.headr--;
+                    if (point.headc == point.tailc) {
+                        point.headr--;
+                    }
+                    else {
+                        point.tailc--;
+                        point.headr--;
+                    }
                     matrix[point.headr][point.headc] = true;
                 break;
                 case -1:

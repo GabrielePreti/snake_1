@@ -10,7 +10,7 @@
 using namespace std;
 #define rows 20
 #define cols 30
-#define snake_length 5
+#define snake_length 3
 
 class Snake {
 protected:
