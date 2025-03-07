@@ -95,6 +95,7 @@ void Snake::move() {
                     matrix[point.tailr][point.tailc] = false;
                     if (point.headc == point.tailc) {
                         point.headr--;
+                        point.tailr--;
                     }
                     else {
                         point.tailc--;
