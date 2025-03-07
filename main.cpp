@@ -19,6 +19,7 @@ int main(int argc, char *argv[]) {
         //printw("Welcome to Snake!");
         Snake snake = Snake();
         snake.display();
+        snake.move();
 
     }
     else if (i == 1) {

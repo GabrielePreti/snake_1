@@ -10,6 +10,7 @@
 using namespace std;
 #define rows 20
 #define cols 30
+#define snake_length 5
 
 class Snake {
 protected:
@@ -20,10 +21,19 @@ protected:
     int xoff;
     int yoff;
 
+    struct index {
+        int headr;
+        int headc;
+        int tailr;
+        int tailc;
+    };
+    index point;
+
 public:
     Snake();
+    void position();
     void display();
-
+    void move();
 };
 
 
