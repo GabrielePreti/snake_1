@@ -6,6 +6,6 @@
 #define CONSTANT_H
 #define rows 20
 #define cols 30
-#define snake_length 10
+#define snake_length 6
 
 #endif //CONSTANT_H

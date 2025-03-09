@@ -53,7 +53,7 @@ void Snake::onsegment() {
 
 void Snake::move() { //SU = 1; GIU = -1; SINISTRA = 2; DESTRA = 3
     halfdelay(5);
-    int direction = 0;
+    int direction = 2;
     bool end = false;
     while (end != true) {
         int ch = wgetch(snake_win);
@@ -129,7 +129,7 @@ void Snake::move() { //SU = 1; GIU = -1; SINISTRA = 2; DESTRA = 3
             }
         }
         Snake::display();
-        napms(190);
+        napms(200);
     }
 
 }
