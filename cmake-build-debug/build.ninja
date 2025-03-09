@@ -79,6 +79,12 @@ build CMakeFiles/snake_1.dir/Menu.cpp.o: CXX_COMPILER__snake_1_unscanned_Debug /
   OBJECT_DIR = CMakeFiles/snake_1.dir
   OBJECT_FILE_DIR = CMakeFiles/snake_1.dir
 
+build CMakeFiles/snake_1.dir/Position.cpp.o: CXX_COMPILER__snake_1_unscanned_Debug /Users/gabrielepreti/CLionProjects/snake_1/Position.cpp || cmake_object_order_depends_target_snake_1
+  DEP_FILE = CMakeFiles/snake_1.dir/Position.cpp.o.d
+  FLAGS = -g -std=gnu++20 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.0.sdk -mmacosx-version-min=14.6 -fcolor-diagnostics
+  OBJECT_DIR = CMakeFiles/snake_1.dir
+  OBJECT_FILE_DIR = CMakeFiles/snake_1.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target snake_1
@@ -87,7 +93,7 @@ build CMakeFiles/snake_1.dir/Menu.cpp.o: CXX_COMPILER__snake_1_unscanned_Debug /
 #############################################
 # Link the executable snake_1
 
-build snake_1: CXX_EXECUTABLE_LINKER__snake_1_Debug CMakeFiles/snake_1.dir/main.cpp.o CMakeFiles/snake_1.dir/Snake.cpp.o CMakeFiles/snake_1.dir/Board.cpp.o CMakeFiles/snake_1.dir/default_functions.cpp.o CMakeFiles/snake_1.dir/Menu.cpp.o
+build snake_1: CXX_EXECUTABLE_LINKER__snake_1_Debug CMakeFiles/snake_1.dir/main.cpp.o CMakeFiles/snake_1.dir/Snake.cpp.o CMakeFiles/snake_1.dir/Board.cpp.o CMakeFiles/snake_1.dir/default_functions.cpp.o CMakeFiles/snake_1.dir/Menu.cpp.o CMakeFiles/snake_1.dir/Position.cpp.o
   FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.0.sdk -mmacosx-version-min=14.6
   OBJECT_DIR = CMakeFiles/snake_1.dir
   POST_BUILD = :

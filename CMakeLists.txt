@@ -11,4 +11,7 @@ add_executable(snake_1 main.cpp
         default_functions.cpp
         default_functions.h
         Menu.cpp
-        Menu.h)
+        Menu.h
+        Position.cpp
+        Position.h
+        Constant.h)

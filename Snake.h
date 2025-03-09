@@ -7,32 +7,32 @@
 #include <ncurses.h>
 #include <iostream>
 #include "default_functions.h"
+#include "Position.h"
 using namespace std;
-#define rows 20
-#define cols 30
-#define snake_length 3
+#include "Constant.h"
 
-class Snake {
+class Snake : public Position {
 protected:
-    bool matrix[rows][cols];
-    int xMax;
+    bool matrix[rows][cols]; //matrice booleana
+    int xMax; //Larghezza e altezza massima terminale
     int yMax;
-    WINDOW* snake_win;
-    int xoff;
+    WINDOW* snake_win; //finestra per movimento
+    int xoff; //offset per centrare matrice booleana nella finestra
     int yoff;
 
-    struct index {
-        int headr;
-        int headc;
-        int tailr;
-        int tailc;
-    };
-    index point;
+    int head_row; //riga e colonna della testa
+    int head_col;
+
 
 public:
     Snake();
     void position();
     void display();
+
+    void offsegment();
+
+    void onsegment();
+
     void move();
 };
 

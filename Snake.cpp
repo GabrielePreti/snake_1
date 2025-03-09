@@ -5,7 +5,7 @@
 #include <iostream>
 using namespace std;
 
-Snake::Snake() {
+Snake::Snake() : Position::Position(){
     xoff = 4;
     yoff = 6;
     get_terminal(xMax, yMax);
@@ -16,24 +16,17 @@ Snake::Snake() {
             matrix[i][j] = false;
         }
     }
-    point.headr = rows/2 + 1;
-    point.tailr = rows/2 + 1;
-    point.headc = cols/2;
-    point.tailc = 0;
-
-    for (int k = point.headc; k < point.headc + snake_length; k++) {
-        matrix[point.headr][k] = true;
-        point.tailc = k;
+    for (int k = 0; k < snake_length; k++) {
+        matrix[coord[k][0]][coord[k][1]] = true;
     }
+    head_row = coord[0][0];
+    head_col = coord[0][1];
 }
 void Snake::position() {
-    cout << "HEAD: " << point.headr << " " << point.headc << endl;
-    cout << "TAIL: " << point.tailr << " " << point.tailc << endl;
-
-    mvprintw(0,0,"%d", point.headr + 1);
-    mvprintw(4,0,"%d", point.headc + 1);
-    mvprintw(8,0,"%d", point.tailr + 1);
-    mvprintw(12,0,"%d", point.tailc + 1);
+    for (int i = 0; i < snake_length; i++) {
+        mvprintw(i + 2,2,"%d", coord[i][0]);
+        mvprintw(i + 2,2,"%d", coord[i][1]);
+    }
 }
 
 void Snake::display() {
@@ -51,73 +44,92 @@ void Snake::display() {
     wrefresh(snake_win);
 }
 
-void Snake::move() {
-    nodelay(snake_win, TRUE);
-    int direction = 1;
-    bool end = false;
+void Snake::offsegment() {
+    matrix[coord[snake_length-1][0]][coord[snake_length-1][1]] = false;
+}
+void Snake::onsegment() {
+    matrix[coord[0][0]][coord[0][1]] = true;
+}
 
+void Snake::move() { //SU = 1; GIU = -1; SINISTRA = 2; DESTRA = 3
+    halfdelay(5);
+    int direction = 0;
+    bool end = false;
     while (end != true) {
         int ch = wgetch(snake_win);
-        if (ch == 16) {
+        if (Position::Dups() == true) {
+            end = true;
+            mvprintw(0, 0, "%s", "MORTO! - SERPENTE SI E' MORSO");
+            refresh();
+        }
+        else if (ch == 16) {
             end = true;
             mvprintw(0, 0, "%s", "PAUSA");
             refresh();
         }
         else {
-            if (ch != ERR){
+            if (ch != ERR) {
                 switch (ch) {
                     case KEY_UP:
-                        if (direction != -1) {
-                            direction = 1;
-                        }
+                        if (direction != -1){ direction = 1;}
                     break;
                     case KEY_DOWN:
-                        if (direction != 1) {
-                            direction = -1;
-                        }
+                        if (direction != 1){ direction = -1;}
                     break;
                     case KEY_LEFT:
-                        if (direction != 3) {
-                            direction = 2;
-                        }
+                        if (direction != 3){ direction = 2;}
                     break;
                     case KEY_RIGHT:
-                        if (direction != 2) {
-                            direction = 3;
-                        }
+                        if (direction != 2){ direction = 3;}
                     break;
                     default:
                         break;
                 }
             }
+
             switch (direction) {
                 case 1:
-                    matrix[point.tailr][point.tailc] = false;
-                    if (point.headc == point.tailc) {
-                        point.headr--;
-                        point.tailr--;
-                    }
-                    else {
-                        point.tailc--;
-                        point.headr--;
-                    }
-                    matrix[point.headr][point.headc] = true;
-                break;
+                    Snake::offsegment();
+                    Position::Pop();
+                    head_row = head_row - 1;
+                    if (head_row < 0) {head_row = rows - 1; }
+                    Position::Push(head_row, head_col);
+                    Snake::onsegment();
+                    if (Position::Dups() == true) {end = true; mvprintw(0, 0, "%s", "MORTO! - SERPENTE SI E' MORSO");}
+                    break;
                 case -1:
-                    matrix[point.tailr][point.tailc] = false;
-                    point.tailc--;
-                    point.headr++;
-                    matrix[point.headr][point.headc] = true;
-                break;
+                    Snake::offsegment();
+                    Position::Pop();
+                    head_row = head_row + 1;
+                    if (head_row > rows - 1) {head_row = 0; }
+                    Position::Push(head_row, head_col);
+                    Snake::onsegment();
+                    if (Position::Dups() == true) {end = true; mvprintw(0, 0, "%s", "MORTO! - SERPENTE SI E' MORSO");}
+                    break;
                 case 2:
+                    Snake::offsegment();
+                    Position::Pop();
+                    head_col = head_col - 1;
+                    if (head_col < 0) {head_col = cols - 1; }
+                    Position::Push(head_row, head_col);
+                    Snake::onsegment();
+                    if (Position::Dups() == true) {end = true; mvprintw(0, 0, "%s", "MORTO! - SERPENTE SI E' MORSO");}
                     break;
                 case 3:
+                    Snake::offsegment();
+                    Position::Pop();
+                    head_col = head_col + 1;
+                    if (head_col > cols - 1) {head_col = 0; }
+                    Position::Push(head_row, head_col);
+                    Snake::onsegment();
+                    if (Position::Dups() == true) {end = true; mvprintw(0, 0, "%s", "MORTO! - SERPENTE SI E' MORSO");}
                     break;
                 default:
-                    break;
+                break;
             }
-            Snake::display();
-            napms(700);
         }
+        Snake::display();
+        napms(190);
     }
+
 }

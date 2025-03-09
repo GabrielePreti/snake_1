@@ -57,6 +57,3 @@ int Menu::Navigate() {
     wrefresh(menu_win);
     return pointing;
 }
-
-
-
