@@ -43,6 +43,22 @@ void Snake::display() {
     }
     wrefresh(snake_win);
 }
+void Snake::display_good() {
+    box(snake_win, 0, 0);
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            if (matrix[i][j] == true) {
+                wattron(snake_win, A_BOLD);
+                mvwprintw(snake_win, i+ (xoff)/2, j + (yoff)/2, "%s", "@@");
+                wattroff(snake_win, A_BOLD);
+            }
+            else {
+                mvwprintw(snake_win, i+ (xoff)/2, j + (yoff)/2, "%s", " ");
+            }
+        }
+    }
+    wrefresh(snake_win);
+}
 
 void Snake::offsegment() {
     matrix[coord[snake_length-1][0]][coord[snake_length-1][1]] = false;
@@ -52,6 +68,7 @@ void Snake::onsegment() {
 }
 
 void Snake::move() { //SU = 1; GIU = -1; SINISTRA = 2; DESTRA = 3
+    curs_set(0);
     halfdelay(5);
     int direction = 2;
     bool end = false;

@@ -7,7 +7,7 @@
 //snake_length
 
 Position::Position() {
-    int j = (cols - 1)/2 - snake_length;
+    int j = (cols - 1)/2 - snake_length/2;
     for (int i = 0; i < snake_length; i++) {
         coord[i][0] = (rows - 1)/2;
         coord[i][1] = j;

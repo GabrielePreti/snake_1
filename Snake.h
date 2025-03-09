@@ -29,6 +29,8 @@ public:
     void position();
     void display();
 
+    void display_good();
+
     void offsegment();
 
     void onsegment();
