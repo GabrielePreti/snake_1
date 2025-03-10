@@ -13,8 +13,9 @@ Menu::Menu() {
     options[0] = "Inizio Partita";
     options[1] = "Esci";
 
-    pointing = 0;
+    ops_firstmenu = 2;
 
+    pointing = 0;
 }
 
 int Menu::Navigate() {
@@ -22,7 +23,7 @@ int Menu::Navigate() {
     box(menu_win, 0, 0);
     int end_loop = false;
     while (end_loop != true) {
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < ops_firstmenu; i++) {
             if (i == pointing) {
                 wattron(menu_win, A_BOLD);
             }

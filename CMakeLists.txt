@@ -14,4 +14,6 @@ add_executable(snake_1 main.cpp
         Menu.h
         Position.cpp
         Position.h
-        Constant.h)
+        Constant.h
+        PauseExit.cpp
+        PauseExit.h)

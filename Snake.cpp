@@ -49,7 +49,7 @@ void Snake::display_good() {
         for (int j = 0; j < cols; j++) {
             if (matrix[i][j] == true) {
                 wattron(snake_win, A_BOLD);
-                mvwprintw(snake_win, i+ (xoff)/2, j + (yoff)/2, "%s", "@@");
+                mvwprintw(snake_win, i+ (xoff)/2, j + (yoff)/2, "%s", "@");
                 wattroff(snake_win, A_BOLD);
             }
             else {
@@ -142,11 +142,10 @@ void Snake::move() { //SU = 1; GIU = -1; SINISTRA = 2; DESTRA = 3
                     if (Position::Dups() == true) {end = true; mvprintw(0, 0, "%s", "MORTO! - SERPENTE SI E' MORSO");}
                     break;
                 default:
-                break;
+                    break;
             }
         }
         Snake::display();
         napms(200);
     }
-
 }
