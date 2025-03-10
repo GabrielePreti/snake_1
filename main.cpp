@@ -1,4 +1,6 @@
 #include <iostream>
+
+#include "PauseExit.h"
 using namespace std;
 #include <ncurses.h>
 #include <string>

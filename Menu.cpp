@@ -19,6 +19,7 @@ Menu::Menu() {
 }
 
 int Menu::Navigate() {
+    curs_set(0);
     wclear(menu_win);
     box(menu_win, 0, 0);
     int end_loop = false;
@@ -36,13 +37,13 @@ int Menu::Navigate() {
             case KEY_UP:
                 pointing--;
                 if (pointing == -1) {
-                    pointing = 0;
+                    pointing = ops_firstmenu - 1;
                 }
                 break;
             case KEY_DOWN:
                 pointing++;
-                if (pointing == 2) {
-                    pointing = 1;
+                if (pointing >= ops_firstmenu) {
+                    pointing = 0;
                 }
                 break;
             default:

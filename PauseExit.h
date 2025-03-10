@@ -13,6 +13,13 @@ using namespace std;
 
 
 class PauseExit {
+protected:
+    std::string options[menu_options];
+    int pointing;
+    WINDOW *menu_win_pause;
+public:
+    PauseExit();
+    int Navigate();
 
 };
 
