@@ -12,18 +12,14 @@ using namespace std;
 
 class Position {
 protected:
-    int coord[snake_length][2];
+    int coord[snake_length][2]; //contiene le coordinate di ogni segmento del serpente
 public:
-    Position();
-    void debug();
-
-    void Shift();
-
-    void Push(int row_d, int col_d);
-
-    void Pop();
-
-    bool Dups();
+    Position(); //Costruttore
+    void debug(); //Funzione di Debug per visualizzare le coordinate di ogni segmento
+    void Shift(); //sposta a destra di 1 posizione tutte le coordinate e lascia la coordinata in coord[0][0] impostata a (0, 0)
+    void Push(int row_d, int col_d); //inserisce in coord[0][0] la coordinata della testa del serpente
+    void Pop(); //rimuove dalla coda dell'array l'ultima coordinata dell'ultimo segmento del serpente
+    bool Dups(); //Verifica se il serpente di è morso
 };
 
 

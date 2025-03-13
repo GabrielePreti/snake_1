@@ -6,23 +6,25 @@
 using namespace std;
 
 Snake::Snake() : Position::Position(){
-    xoff = 4;
-    yoff = 6;
-    get_terminal(xMax, yMax);
-    snake_win = centered_win(rows + xoff, cols + yoff, xMax, yMax);
-    keypad(snake_win, TRUE);
-    for (int i = 0; i < rows; i++) {
+    xoff = 4; //offset impostati e definiti (da non cambiare) per centrare correttamente la finestra di visualizzazione
+    yoff = 6; //del serpente
+    get_terminal(xMax, yMax); //la funzione prende i due valori e assegna a questi valori la dimensione del terminale
+    snake_win = centered_win(rows + xoff, cols + yoff, xMax, yMax); //creazione della finestra centrata
+    keypad(snake_win, TRUE); //attivazione dell'input delle freccette
+    for (int i = 0; i < rows; i++) { //imposta tutta la matrice booleana a 0/false
         for (int j = 0; j < cols; j++) {
             matrix[i][j] = false;
         }
     }
     for (int k = 0; k < snake_length; k++) {
-        matrix[coord[k][0]][coord[k][1]] = true;
+        matrix[coord[k][0]][coord[k][1]] = true;  //imposta le coordinate di riferimento della matrice booleana a true
+                                                 //se tali coordinate solo inserite all'interno dell'array bidimensionale
+                                                //definito in Position.h/Position.cpp
     }
-    head_row = coord[0][0];
+    head_row = coord[0][0]; //copia delle coordinate della testa per lavorare più velocemente
     head_col = coord[0][1];
 }
-void Snake::position() {
+void Snake::position() { //debug
     for (int i = 0; i < snake_length; i++) {
         mvprintw(i + 2,2,"%d", coord[i][0]);
         mvprintw(i + 2,2,"%d", coord[i][1]);
@@ -43,7 +45,7 @@ void Snake::display() {
     }
     wrefresh(snake_win);
 }
-void Snake::display_good() {
+/*void Snake::display_good() {
     box(snake_win, 0, 0);
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
@@ -58,28 +60,30 @@ void Snake::display_good() {
         }
     }
     wrefresh(snake_win);
-}
+}*/
 
-void Snake::offsegment() {
+void Snake::offsegment() {//imposto le coordinate associate alla matrice che sono definite all'interno dell'array bidimensionale uguali a false
     matrix[coord[snake_length-1][0]][coord[snake_length-1][1]] = false;
+    //ESEMPIO coord[0][0] = 1 e coord[0][1] = 2 ==> matrix[1][2] = 0/false
 }
-void Snake::onsegment() {
+void Snake::onsegment() {//imposto le coordinate associate alla matrice che sono definite all'interno dell'array bidimensionale uguali a true
     matrix[coord[0][0]][coord[0][1]] = true;
+    //ESEMPIO coord[0][0] = 1 e coord[0][1] = 2 ==> matrix[1][2] = 1/true
 }
 
 void Snake::move() { //SU = 1; GIU = -1; SINISTRA = 2; DESTRA = 3
-    curs_set(0);
-    halfdelay(5);
-    int direction = 2;
+    curs_set(0); //nascondo il cursore
+    halfdelay(5); //imposto un delay
+    int direction = 2; //direzione di partenza
     bool end = false;
     while (end != true) {
-        int ch = wgetch(snake_win);
-        if (Position::Dups() == true) {
+        int ch = wgetch(snake_win); //prendo il carattere dalla finestra
+        if (Position::Dups() == true) { //prima controlla la presenza di duplicati
             end = true;
-            mvprintw(0, 0, "%s", "MORTO! - SERPENTE SI E' MORSO");
+            mvprintw(0, 0, "%s", "MORTO! - SERPENTE SI E' MORSO"); //se ci sono, allora il serpente si è morso
             refresh();
         }
-        else if (ch == 16) {
+        else if (ch == 16) { //control + p
             end = true;
             mvprintw(0, 0, "%s", "PAUSA");
             refresh();
@@ -149,3 +153,41 @@ void Snake::move() { //SU = 1; GIU = -1; SINISTRA = 2; DESTRA = 3
         napms(200);
     }
 }
+
+void Snake::moveup() {
+    Snake::offsegment();
+    Position::Pop();
+    head_row = head_row - 1;
+    if (head_row < 0) {head_row = rows - 1; }
+    Position::Push(head_row, head_col);
+    Snake::onsegment();
+}
+
+void Snake::movedown() {
+    Snake::offsegment();
+    Position::Pop();
+    head_row = head_row + 1;
+    if (head_row > rows - 1) {head_row = 0; }
+    Position::Push(head_row, head_col);
+    Snake::onsegment();
+}
+
+void Snake::moveleft() {
+    Snake::offsegment();
+    Position::Pop();
+    head_col = head_col - 1;
+    if (head_col < 0) {head_col = cols - 1; }
+    Position::Push(head_row, head_col);
+    Snake::onsegment();
+}
+
+void Snake::moveright() {
+    Snake::offsegment();
+    Position::Pop();
+    head_col = head_col + 1;
+    if (head_col > cols - 1) {head_col = 0; }
+    Position::Push(head_row, head_col);
+    Snake::onsegment();
+}
+
+
