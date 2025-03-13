@@ -71,6 +71,39 @@ void Snake::onsegment() {//imposto le coordinate associate alla matrice che sono
     //ESEMPIO coord[0][0] = 1 e coord[0][1] = 2 ==> matrix[1][2] = 1/true
 }
 
+void Snake::moveup() {
+    Snake::offsegment(); //spegno la coda --> Uguale per tutti i metodi
+    Position::Pop(); //la rimuovo dall'array che gestisce i segmenti
+    head_row = head_row - 1; //mi sposto verso l'alto, diminuisco le righe
+    if (head_row < 0) {head_row = rows - 1; } //controllo sul bordo
+    Position::Push(head_row, head_col); //inserisco nuova testa
+    Snake::onsegment(); //riaccendo segmenti associato alla matrice
+}
+void Snake::movedown() {
+    Snake::offsegment();
+    Position::Pop();
+    head_row = head_row + 1; //mi sposto verso il basso, aumento le righe
+    if (head_row > rows - 1) {head_row = 0; } //controllo sul bordo
+    Position::Push(head_row, head_col); //inserisco nuova testa
+    Snake::onsegment(); //riaccendo segmenti associato alla matrice
+}
+void Snake::moveleft() {
+    Snake::offsegment();
+    Position::Pop();
+    head_col = head_col - 1; //mi sposto verso sinistra, diminuisco le colonne
+    if (head_col < 0) {head_col = cols - 1; }
+    Position::Push(head_row, head_col);
+    Snake::onsegment();
+}
+void Snake::moveright() {
+    Snake::offsegment();
+    Position::Pop();
+    head_col = head_col + 1;  //mi sposto verso destra, aumento le colonne
+    if (head_col > cols - 1) {head_col = 0; }
+    Position::Push(head_row, head_col);
+    Snake::onsegment();
+}
+
 void Snake::move() { //SU = 1; GIU = -1; SINISTRA = 2; DESTRA = 3
     curs_set(0); //nascondo il cursore
     halfdelay(5); //imposto un delay
@@ -89,20 +122,20 @@ void Snake::move() { //SU = 1; GIU = -1; SINISTRA = 2; DESTRA = 3
             refresh();
         }
         else {
-            if (ch != ERR) {
-                switch (ch) {
+            if (ch != ERR) { //se il carattere viene premuto allora eseguo controlli sulla direzione
+                switch (ch) { //direzione che non può essere opposta a quella attuale
                     case KEY_UP:
                         if (direction != -1){ direction = 1;}
-                    break;
+                        break;
                     case KEY_DOWN:
                         if (direction != 1){ direction = -1;}
-                    break;
+                        break;
                     case KEY_LEFT:
                         if (direction != 3){ direction = 2;}
-                    break;
+                        break;
                     case KEY_RIGHT:
                         if (direction != 2){ direction = 3;}
-                    break;
+                        break;
                     default:
                         break;
                 }
@@ -110,84 +143,28 @@ void Snake::move() { //SU = 1; GIU = -1; SINISTRA = 2; DESTRA = 3
 
             switch (direction) {
                 case 1:
-                    Snake::offsegment();
-                    Position::Pop();
-                    head_row = head_row - 1;
-                    if (head_row < 0) {head_row = rows - 1; }
-                    Position::Push(head_row, head_col);
-                    Snake::onsegment();
-                    if (Position::Dups() == true) {end = true; mvprintw(0, 0, "%s", "MORTO! - SERPENTE SI E' MORSO");}
+                    moveup();
+                    if (Position::Dups() == true) {end = true; mvprintw(0, 0, "%s", "MORTO! - SERPENTE SI E' MORSO");} //controllo sul morso
                     break;
                 case -1:
-                    Snake::offsegment();
-                    Position::Pop();
-                    head_row = head_row + 1;
-                    if (head_row > rows - 1) {head_row = 0; }
-                    Position::Push(head_row, head_col);
-                    Snake::onsegment();
-                    if (Position::Dups() == true) {end = true; mvprintw(0, 0, "%s", "MORTO! - SERPENTE SI E' MORSO");}
+                    movedown();
+                    if (Position::Dups() == true) {end = true; mvprintw(0, 0, "%s", "MORTO! - SERPENTE SI E' MORSO");} //controllo sul morso
                     break;
                 case 2:
-                    Snake::offsegment();
-                    Position::Pop();
-                    head_col = head_col - 1;
-                    if (head_col < 0) {head_col = cols - 1; }
-                    Position::Push(head_row, head_col);
-                    Snake::onsegment();
-                    if (Position::Dups() == true) {end = true; mvprintw(0, 0, "%s", "MORTO! - SERPENTE SI E' MORSO");}
+                    moveleft();
+                    if (Position::Dups() == true) {end = true; mvprintw(0, 0, "%s", "MORTO! - SERPENTE SI E' MORSO");} //controllo sul morso
                     break;
                 case 3:
-                    Snake::offsegment();
-                    Position::Pop();
-                    head_col = head_col + 1;
-                    if (head_col > cols - 1) {head_col = 0; }
-                    Position::Push(head_row, head_col);
-                    Snake::onsegment();
-                    if (Position::Dups() == true) {end = true; mvprintw(0, 0, "%s", "MORTO! - SERPENTE SI E' MORSO");}
+                    moveright();
+                    if (Position::Dups() == true) {end = true; mvprintw(0, 0, "%s", "MORTO! - SERPENTE SI E' MORSO");} //controllo sul morso
                     break;
                 default:
                     break;
             }
         }
-        Snake::display();
+        Snake::display(); //Visualizzazione, metodo che viene reimplementato dalla Grazia
         napms(200);
     }
-}
-
-void Snake::moveup() {
-    Snake::offsegment();
-    Position::Pop();
-    head_row = head_row - 1;
-    if (head_row < 0) {head_row = rows - 1; }
-    Position::Push(head_row, head_col);
-    Snake::onsegment();
-}
-
-void Snake::movedown() {
-    Snake::offsegment();
-    Position::Pop();
-    head_row = head_row + 1;
-    if (head_row > rows - 1) {head_row = 0; }
-    Position::Push(head_row, head_col);
-    Snake::onsegment();
-}
-
-void Snake::moveleft() {
-    Snake::offsegment();
-    Position::Pop();
-    head_col = head_col - 1;
-    if (head_col < 0) {head_col = cols - 1; }
-    Position::Push(head_row, head_col);
-    Snake::onsegment();
-}
-
-void Snake::moveright() {
-    Snake::offsegment();
-    Position::Pop();
-    head_col = head_col + 1;
-    if (head_col > cols - 1) {head_col = 0; }
-    Position::Push(head_row, head_col);
-    Snake::onsegment();
 }
 
 

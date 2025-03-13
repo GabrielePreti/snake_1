@@ -32,10 +32,11 @@ public:
     void offsegment(); //imposta uguale a true la coordinata della matrice booleana corrispondente a quella salvata nell'array bidimensionale in Position.h /Position.cpp
     void onsegment(); //imposta uguale a false la coordinata della matrice booleana corrispondente a quella salvata nell'array bidimensionale in Position.h /Position.cpp
     void move(); //aggiorna le coordinate del serpente, accendendo e spegnendo ogni coordinata della matrice booleana di riferimento
-    void moveup();
-    void movedown();
-    void moveleft();
-    void moveright();
+
+    void moveup(); //compattano lo switch del metodo move --> Servono a Grazie per poi compattare il codice finale
+    void movedown(); //Servono a Grazie per poi compattare il codice finale
+    void moveleft(); //Servono a Grazie per poi compattare il codice finale
+    void moveright(); //Servono a Grazie per poi compattare il codice finale
 };
 
 
